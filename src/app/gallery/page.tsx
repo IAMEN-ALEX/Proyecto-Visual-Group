@@ -22,8 +22,22 @@ export default function GalleryPage() {
             </div>
 
             <div className="flex-1 w-full h-full relative">
+                {/* Interaction Hand Hint */}
+                <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none animate-fade-out opacity-0" style={{ animationDelay: '3s', animationFillMode: 'forwards', animationName: 'fadeOut' }}>
+                    <div className="bg-black/40 backdrop-blur-md rounded-full px-6 py-3 text-white flex items-center gap-3 animate-pulse">
+                        <span className="text-2xl">👆</span>
+                        <span className="text-sm font-medium">Arrastra para explorar</span>
+                    </div>
+                </div>
                 <DomeGallery grayscale={false} />
             </div>
+
+            <style jsx global>{`
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; visibility: hidden; }
+                }
+            `}</style>
         </div >
     );
 }

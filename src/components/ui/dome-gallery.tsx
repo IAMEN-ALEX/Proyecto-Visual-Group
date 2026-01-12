@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useGesture } from '@use-gesture/react';
 
 type ImageItem = string | { src: string; alt?: string };
@@ -229,6 +229,18 @@ export default function DomeGallery({
     };
 
     const lockedRadiusRef = useRef<number | null>(null);
+    const [isMobile, setIsMobile] = useState(false); // Mobile state
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // Adjust sensitivity based on device
+    const effectiveDragSensitivity = isMobile ? dragSensitivity * 0.6 : dragSensitivity;
+
 
     useEffect(() => {
         const root = rootRef.current;
@@ -391,11 +403,11 @@ export default function DomeGallery({
                 }
 
                 const nextX = clamp(
-                    startRotRef.current.x - dyTotal / dragSensitivity,
+                    startRotRef.current.x - dyTotal / effectiveDragSensitivity,
                     -maxVerticalRotationDeg,
                     maxVerticalRotationDeg
                 );
-                const nextY = startRotRef.current.y + dxTotal / dragSensitivity;
+                const nextY = startRotRef.current.y + dxTotal / effectiveDragSensitivity;
 
                 const cur = rotationRef.current;
                 if (cur.x !== nextX || cur.y !== nextY) {
@@ -424,8 +436,8 @@ export default function DomeGallery({
 
                     if (!isTap && Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
                         const [mx, my] = movement;
-                        vx = (mx / dragSensitivity) * 0.02;
-                        vy = (my / dragSensitivity) * 0.02;
+                        vx = (mx / effectiveDragSensitivity) * 0.02;
+                        vy = (my / effectiveDragSensitivity) * 0.02;
                     }
 
                     if (!isTap && (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005)) {
