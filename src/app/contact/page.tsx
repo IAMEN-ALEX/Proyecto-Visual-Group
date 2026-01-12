@@ -37,8 +37,9 @@ export default function ContactPage() {
                 setIsSubmitted(true);
                 setFormData({ name: "", email: "", phone: "", reason: "Cotización", message: "" });
             } else {
-                console.error('Failed to send message');
-                alert('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.');
+                const data = await response.json();
+                console.error('Failed to send message:', data.error);
+                alert(`Error: ${data.error || 'Hubo un error al enviar el mensaje.'}`);
             }
         } catch (error) {
             console.error('Error submitting form:', error);

@@ -16,7 +16,6 @@ export async function POST(req: Request) {
         }
 
         // Lazy migration: Create table if it doesn't exist
-        // In a production app, use proper migrations (e.g., node-pg-migrate, prisma, drizzle)
         const createTableQuery = `
       CREATE TABLE IF NOT EXISTS messages (
         id SERIAL PRIMARY KEY,
@@ -28,7 +27,16 @@ export async function POST(req: Request) {
         created_at TIMESTAMP DEFAULT NOW()
       );
     `;
-        await query(createTableQuery);
+
+        try {
+            await query(createTableQuery);
+        } catch (dbError: any) {
+            console.error('❌ Table Creation Error:', dbError);
+            return NextResponse.json(
+                { error: `Database Connection/Table Error: ${dbError.message}` },
+                { status: 500 }
+            );
+        }
 
         // Insert message
         const insertQuery = `
@@ -37,27 +45,35 @@ export async function POST(req: Request) {
       RETURNING id, created_at;
     `;
 
-        const result = await query(insertQuery, [
-            name,
-            email,
-            phone || null,
-            reason || 'General',
-            message
-        ]);
+        try {
+            const result = await query(insertQuery, [
+                name,
+                email,
+                phone || null,
+                reason || 'General',
+                message
+            ]);
 
-        return NextResponse.json(
-            {
-                success: true,
-                message: 'Message sent successfully',
-                data: result.rows[0]
-            },
-            { status: 200 }
-        );
+            return NextResponse.json(
+                {
+                    success: true,
+                    message: 'Message sent successfully',
+                    data: result.rows[0]
+                },
+                { status: 200 }
+            );
+        } catch (insertError: any) {
+            console.error('❌ Data Insertion Error:', insertError);
+            return NextResponse.json(
+                { error: `Data Insertion Error: ${insertError.message}` },
+                { status: 500 }
+            );
+        }
 
-    } catch (error) {
-        console.error('Database Error:', error);
+    } catch (error: any) {
+        console.error('❌ Global API Error:', error);
         return NextResponse.json(
-            { error: 'Internal Server Error' },
+            { error: error.message || 'Internal Server Error' },
             { status: 500 }
         );
     }
