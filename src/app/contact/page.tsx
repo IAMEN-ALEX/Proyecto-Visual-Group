@@ -24,12 +24,28 @@ export default function ContactPage() {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setFormData({ name: "", email: "", phone: "", reason: "Cotización", message: "" });
+            if (response.ok) {
+                setIsSubmitted(true);
+                setFormData({ name: "", email: "", phone: "", reason: "Cotización", message: "" });
+            } else {
+                console.error('Failed to send message');
+                alert('Hubo un error al enviar el mensaje. Por favor intenta nuevamente.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            alert('Error de conexión. Por favor verifica tu internet e intenta nuevamente.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
