@@ -11,6 +11,7 @@ import { Sparkles, Zap, Palette, PartyPopper } from "lucide-react";
 
 import Iridescence from "@/components/ui/iridescence";
 import { ServiceCard } from "@/components/service-card";
+import { ClientLogo } from "@/components/ui/client-logo";
 import Image from "next/image";
 
 export default function Home() {
@@ -89,41 +90,24 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-              {/* Logo: Lider */}
-              <div className="group relative flex h-32 w-48 items-center justify-center rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/10 hover:bg-white/[0.05] hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <Image
-                  src="/images/clients/lider.png"
-                  alt="Lider"
-                  width={150}
-                  height={60}
-                  className="relative z-10 h-12 w-auto object-contain opacity-50 grayscale transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-              </div>
-
-              {/* Logo: Unimarc */}
-              <div className="group relative flex h-32 w-48 items-center justify-center rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/10 hover:bg-white/[0.05] hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <Image
-                  src="/images/clients/unimarc.png"
-                  alt="Unimarc"
-                  width={150}
-                  height={60}
-                  className="relative z-10 h-12 w-auto object-contain opacity-50 grayscale transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-              </div>
-
-              {/* Logo: Santa Isabel */}
-              <div className="group relative flex h-32 w-48 items-center justify-center rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-white/10 hover:bg-white/[0.05] hover:shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)]">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <Image
-                  src="/images/clients/santa-isabel.png"
-                  alt="Santa Isabel"
-                  width={150}
-                  height={60}
-                  className="relative z-10 h-10 w-auto object-contain opacity-50 grayscale transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-              </div>
+              <ClientLogo
+                src="/images/clients/lider.png"
+                alt="Lider"
+                width={150}
+                height={60}
+              />
+              <ClientLogo
+                src="/images/clients/unimarc.png"
+                alt="Unimarc"
+                width={150}
+                height={60}
+              />
+              <ClientLogo
+                src="/images/clients/santa-isabel.png"
+                alt="Santa Isabel"
+                width={150}
+                height={60}
+              />
             </div>
           </Container>
         </section>
