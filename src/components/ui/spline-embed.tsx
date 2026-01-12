@@ -14,7 +14,7 @@ const SplineEmbed: React.FC = () => {
 
             <iframe
                 src="https://my.spline.design/liquidspiral-nviH2pKdBh6xHHtYsD5kdGvH/"
-                className={`w-full h-full border-0 absolute inset-0 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className={`w-full h-full border-0 absolute inset-0 transition-opacity duration-1000 hidden md:block ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                 title="Spline 3D Scene"
                 onLoad={() => setIsLoaded(true)}
                 allow="fullscreen; clipboard-read; clipboard-write"

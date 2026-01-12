@@ -1,10 +1,10 @@
-"use client";
-
 import Link from "next/link";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Container } from "./container";
-import { motion } from "framer-motion";
-import { cn } from "./ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "./ui/button"; // Restored original import path
+import { Menu, X } from "lucide-react";
 
 const navLinks = [
     { name: "Inicio", href: "/" },
@@ -14,6 +14,7 @@ const navLinks = [
 
 export function Navbar() {
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <motion.header
@@ -30,8 +31,8 @@ export function Navbar() {
                     </span>
                 </Link>
 
-                {/* Navigation */}
-                <nav className="flex gap-6">
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex gap-6">
                     {navLinks.map((link) => (
                         <Link
                             key={link.href}
@@ -51,7 +52,43 @@ export function Navbar() {
                         </Link>
                     ))}
                 </nav>
+
+                {/* Mobile Menu Button */}
+                <button
+                    className="md:hidden text-white"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {isOpen ? <X /> : <Menu />}
+                </button>
             </Container>
+
+            {/* Mobile Navigation */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden border-b border-white/5 bg-slate-950/95 backdrop-blur-xl overflow-hidden"
+                    >
+                        <nav className="flex flex-col p-4 gap-4">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    onClick={() => setIsOpen(false)}
+                                    className={cn(
+                                        "text-lg font-medium transition-colors hover:text-white py-2",
+                                        pathname === link.href ? "text-purple-400" : "text-slate-400"
+                                    )}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </nav>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.header>
     );
 }
