@@ -226,7 +226,7 @@ export default function ContactPage() {
                 <div className="mt-12 text-center">
                     <Link href="/">
                         <StarBorder color="#a855f7" speed="4s" thickness={5}>
-                            Volver al Dashboard principal
+                            Volver a la página principal
                         </StarBorder>
                     </Link>
                 </div>
