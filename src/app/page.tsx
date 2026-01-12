@@ -64,16 +64,16 @@ export default function Home() {
               ofreciendo nuestra experiencia y diseño para todo tipo de eventos.
             </p>
 
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Link href="/contact">
-                <StarBorder as="button" speed="4s" thickness={5} className="text-xl font-bold">
-                  Contáctanos
-                </StarBorder>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact" prefetch={true}>
+                <Button size="lg" variant="primary">
+                  Solicitar Cotización
+                </Button>
               </Link>
-              <Link href="/gallery">
-                <StarBorder as="button" speed="4s" thickness={5} color="#3b82f6" className="text-xl font-bold">
+              <Link href="/gallery" prefetch={true}>
+                <Button size="lg" variant="outline">
                   Ver Galería
-                </StarBorder>
+                </Button>
               </Link>
             </div>
           </Container>
