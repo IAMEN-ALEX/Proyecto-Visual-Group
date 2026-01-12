@@ -12,46 +12,73 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StarBorder from "@/components/ui/star-border";
 import GradientText from "@/components/ui/gradient-text";
-import SplineEmbed from "@/components/ui/spline-embed";
+import Iridescence from "@/components/ui/iridescence"; // Optimized Background
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.3,
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50, damping: 20 } }
+};
 
 export default function BlogPage() {
     return (
         <div className="flex min-h-screen flex-col bg-slate-950 relative overflow-hidden">
-            {/* Native Spline Background */}
-            <div className="fixed inset-0 z-0 overflow-hidden opacity-40 pointer-events-none">
-                <SplineEmbed />
+            {/* Optimized Native Background (No iframe) */}
+            <div className="fixed inset-0 z-0 opacity-40">
+                <Iridescence
+                    color={[0.5, 0.1, 0.9]}
+                    mouseReact={false}
+                    amplitude={0.1}
+                    speed={1.0}
+                />
             </div>
 
             <Navbar />
 
-            <main className="flex-1 py-32">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                    <Container>
-                        <div className="mb-16 text-center">
-                            <GradientText
-                                colors={["#fa3556ff", "#4aeb35ff", "#4079ff", "#4079ff", "#40ffaa", "#cb2bf3ff"]}
-                                animationSpeed={4}
-                                showBorder={false}
-                                className="mb-4 font-serif text-4xl font-bold md:text-6xl"
-                            >
-                                Nuestro Blog
-                            </GradientText>
-                            <p className="mx-auto max-w-2xl text-lg text-slate-400">
-                                Inspiración y actualidad en eventos, diseño visual y tecnología aplicada a experiencias únicas.
-                            </p>
-                        </div>
+            <main className="flex-1 py-32 z-10 relative">
+                <Container>
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-16 text-center"
+                    >
+                        <GradientText
+                            colors={["#fa3556ff", "#4aeb35ff", "#4079ff", "#4079ff", "#40ffaa", "#cb2bf3ff"]}
+                            animationSpeed={4}
+                            showBorder={false}
+                            className="mb-4 font-serif text-4xl font-bold md:text-6xl"
+                        >
+                            Nuestro Blog
+                        </GradientText>
+                        <p className="mx-auto max-w-2xl text-lg text-slate-400">
+                            Inspiración y actualidad en eventos, diseño visual y tecnología aplicada a experiencias únicas.
+                        </p>
+                    </motion.div>
 
-                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 items-start">
-                            {blogPosts.map((post, index) => (
-                                <BlogCard key={post.slug} post={post} index={index} />
-                            ))}
-                        </div>
-                    </Container>
-                </motion.div>
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="show"
+                        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 items-start"
+                    >
+                        {blogPosts.map((post, index) => (
+                            <motion.div key={post.slug} variants={itemVariants}>
+                                <BlogCard post={post} index={index} />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </Container>
             </main>
 
             <Footer />
