@@ -71,16 +71,16 @@ export function ClientLogo({ src, alt, width = 150, height = 60 }: ClientLogoPro
             />
 
             {/* Logo Image */}
-            <Image
-                src={src}
-                alt={alt}
-                width={width}
-                height={height}
-                className={`relative z-10 w-auto object-contain transition-all duration-500 transform
-          ${isHovered ? "scale-110 opacity-100 grayscale-0" : "h-12 opacity-50 grayscale"}
-          ${!isHovered && "h-12"} 
-        `}
-            />
+            <div className="relative z-10 flex h-16 w-32 items-center justify-center">
+                <Image
+                    src={src}
+                    alt={alt}
+                    fill
+                    className={`object-contain transition-all duration-500 transform
+            ${isHovered ? "scale-110 opacity-100 grayscale-0" : "opacity-50 grayscale"}
+          `}
+                />
+            </div>
         </div>
     );
 }
