@@ -857,7 +857,7 @@ export default function DomeGallery({
                                     }
                                 >
                                     <div
-                                        className="item__image absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
+                                        className="item__image absolute block overflow-hidden cursor-pointer bg-slate-900/50 transition-transform duration-300"
                                         role="button"
                                         tabIndex={0}
                                         aria-label={it.alt || 'Open image'}
@@ -888,6 +888,8 @@ export default function DomeGallery({
                                             fill
                                             priority={i < 6}
                                             sizes="(max-width: 768px) 200px, 300px"
+                                            placeholder="blur"
+                                            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzFhMjAzNSIvPjwvc3ZnPg=="
                                             draggable={false}
                                             className="object-cover pointer-events-none"
                                             style={{
