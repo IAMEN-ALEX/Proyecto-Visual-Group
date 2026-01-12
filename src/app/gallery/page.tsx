@@ -31,13 +31,6 @@ export default function GalleryPage() {
                 </div>
                 <DomeGallery grayscale={false} />
             </div>
-
-            <style jsx global>{`
-                @keyframes fadeOut {
-                    from { opacity: 1; }
-                    to { opacity: 0; visibility: hidden; }
-                }
-            `}</style>
         </div >
     );
 }

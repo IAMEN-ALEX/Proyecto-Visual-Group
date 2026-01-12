@@ -58,6 +58,17 @@
   --border: #1e293b;
 }
 
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
