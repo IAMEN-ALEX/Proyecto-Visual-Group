@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Iridescence from "./iridescence";
 
 const SplineEmbed: React.FC = () => {
