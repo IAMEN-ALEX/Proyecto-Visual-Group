@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import StarBorder from "@/components/ui/star-border";
 import GradientText from "@/components/ui/gradient-text";
 import Iridescence from "@/components/ui/iridescence"; // Optimized Background
+import SplineEmbed from "@/components/ui/spline-embed";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,13 +35,9 @@ export default function BlogPage() {
     return (
         <div className="flex min-h-screen flex-col bg-slate-950 relative overflow-hidden">
             {/* Optimized Native Background (No iframe) */}
+            {/* Optimized Native Background (No iframe) */}
             <div className="fixed inset-0 z-0 opacity-40">
-                <Iridescence
-                    color={[0.5, 0.1, 0.9]}
-                    mouseReact={false}
-                    amplitude={0.1}
-                    speed={1.0}
-                />
+                <SplineEmbed />
             </div>
 
             <Navbar />
