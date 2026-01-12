@@ -129,7 +129,7 @@ export default function Home() {
         </section>
 
         {/* Services Section */}
-        <section className="py-24 bg-slate-950/50">
+        <section className="py-24 bg-slate-950/30 brightness-100">
           <Container>
             <div className="mb-16 text-center">
               <GradientText
