@@ -12,21 +12,21 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden group cursor-pointer",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden group cursor-pointer",
     {
         variants: {
             variant: {
                 primary:
-                    "bg-gradient-to-br from-purple-600/90 to-purple-700/90 text-white backdrop-blur-xl border border-purple-400/30 shadow-[0_8px_32px_0_rgba(147,51,234,0.3)] hover:shadow-[0_8px_32px_0_rgba(147,51,234,0.5)] hover:border-purple-400/50 hover:from-purple-500/90 hover:to-purple-600/90 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/20 before:to-transparent before:opacity-0 before:transition-opacity hover:before:opacity-100",
+                    "bg-gradient-to-br from-purple-500/20 via-purple-600/15 to-blue-600/20 text-white backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_0_rgba(147,51,234,0.25),inset_0_1px_0_0_rgba(255,255,255,0.2)] hover:shadow-[0_12px_48px_0_rgba(147,51,234,0.4),inset_0_1px_0_0_rgba(255,255,255,0.3)] hover:border-white/30 hover:from-purple-500/30 hover:via-purple-600/25 hover:to-blue-600/30 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_50%)] after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100",
                 secondary:
-                    "bg-gradient-to-br from-slate-700/80 to-slate-800/80 text-white backdrop-blur-xl border border-slate-600/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] hover:border-slate-500/50 hover:from-slate-600/80 hover:to-slate-700/80",
+                    "bg-gradient-to-br from-slate-700/60 via-slate-800/50 to-slate-900/60 text-white backdrop-blur-2xl border border-slate-500/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.3),inset_0_1px_0_0_rgba(255,255,255,0.1)] hover:shadow-[0_12px_48px_0_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.2)] hover:border-slate-400/40 hover:from-slate-600/60 hover:via-slate-700/50 hover:to-slate-800/60 before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/5 before:via-transparent before:to-transparent before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100",
                 outline:
-                    "border-2 border-white/20 bg-white/5 backdrop-blur-md hover:bg-white/10 hover:border-white/40 text-white shadow-[0_4px_16px_0_rgba(255,255,255,0.1)] hover:shadow-[0_4px_16px_0_rgba(255,255,255,0.2)]",
+                    "border-2 border-white/20 bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/40 text-white shadow-[0_4px_24px_0_rgba(255,255,255,0.1),inset_0_1px_0_0_rgba(255,255,255,0.15)] hover:shadow-[0_8px_32px_0_rgba(255,255,255,0.2),inset_0_1px_0_0_rgba(255,255,255,0.25)] before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100",
                 ghost:
-                    "hover:bg-white/10 hover:text-white backdrop-blur-sm text-white/80 hover:backdrop-blur-md transition-all duration-300",
+                    "hover:bg-white/10 hover:text-white backdrop-blur-sm text-white/90 hover:backdrop-blur-xl transition-all duration-300 hover:shadow-[0_4px_24px_0_rgba(255,255,255,0.1)]",
             },
             size: {
-                sm: "h-9 px-4 text-sm",
+                sm: "h-9 px-5 text-sm",
                 md: "h-11 px-8 text-base",
                 lg: "h-14 px-10 text-lg",
             },
