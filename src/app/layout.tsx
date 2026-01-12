@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/smooth-scroll";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://my.spline.design" />
       </head>
       <body suppressHydrationWarning className={`${outfit.variable} ${playfair.variable} font-sans bg-slate-950 text-white antialiased overflow-x-hidden selection:bg-purple-500 selection:text-white`}>
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
