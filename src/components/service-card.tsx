@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 
 interface ServiceCardProps {
@@ -10,77 +10,103 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ icon, title, description }: ServiceCardProps) {
-    const divRef = useRef<HTMLDivElement>(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [opacity, setOpacity] = useState(0);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!divRef.current) return;
-        const rect = divRef.current.getBoundingClientRect();
-        setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-        setOpacity(1);
-    };
+    const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
 
-    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (!divRef.current) return;
-        const touch = e.touches[0];
-        const rect = divRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-        // Only trigger if inside the card
-        if (
-            touch.clientX >= rect.left &&
-            touch.clientX <= rect.right &&
-            touch.clientY >= rect.top &&
-            touch.clientY <= rect.bottom
-        ) {
-            setPosition({ x: touch.clientX - rect.left, y: touch.clientY - rect.top });
-            setOpacity(1);
-        } else {
-            setOpacity(0);
-        }
-    };
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
 
-    const handleLeave = () => {
-        setOpacity(0);
-    };
+        const rotateX = (mouseY / (rect.height / 2)) * -12; // Increased tilt for more drama
+        const rotateY = (mouseX / (rect.width / 2)) * 12;
+
+        setRotate({ x: rotateX, y: rotateY });
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+        setRotate({ x: 0, y: 0 });
+    }, []);
 
     return (
         <div
-            ref={divRef}
+            className="group h-full perspective-[2000px]"
             onMouseMove={handleMouseMove}
-            onMouseLeave={handleLeave}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleLeave}
-            className="group relative flex h-full rounded-2xl border border-white/10 bg-slate-950/50 overflow-hidden"
+            onMouseLeave={handleMouseLeave}
         >
-            {/* Spotlight Gradient - Driven by state for both Mouse & Touch */}
             <div
-                className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
+                ref={cardRef}
                 style={{
-                    opacity,
-                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(147, 51, 234, 0.45), transparent 40%)`
+                    transform: `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+                    transition: rotate.x === 0 ? "transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)" : "transform 0.1s ease-out"
                 }}
-            />
+                className="relative flex h-full rounded-xl border border-purple-500/20 bg-slate-900/40 backdrop-blur-3xl transition-all duration-700 preserve-3d group-hover:border-purple-400/50 group-hover:shadow-[0_0_50px_-10px_rgba(168,85,247,0.4)] overflow-hidden"
+            >
+                {/* HUD Grid Overlay */}
+                <div className="absolute inset-0 opacity-[0.05] pointer-events-none rounded-xl"
+                    style={{ backgroundImage: `radial-gradient(circle, #a855f7 1px, transparent 1px)`, backgroundSize: '24px 24px' }}
+                />
 
-            {/* Existing Card Content with Glass Effect */}
-            <Card className="relative h-full w-full border-0 bg-transparent p-8 flex flex-col items-center text-center">
-                {/* Top light reflection */}
-                <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
+                {/* Holographic 3D Layers */}
+                <div className="absolute inset-0 translate-z-[-15px] rounded-xl bg-purple-500/[0.03] border border-purple-500/10 pointer-events-none" />
+                <div className="absolute inset-0 translate-z-[-30px] rounded-xl bg-purple-500/[0.01] border border-purple-500/5 pointer-events-none" />
 
-                <div className="relative mb-6 rounded-full bg-gradient-to-br from-white/10 to-white/5 p-4 ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-500">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-500" />
-                    <div className="relative z-10">
-                        {icon}
-                    </div>
+                {/* Corner HUD Markers (Purple Neon) */}
+                <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-purple-400/60 transition-all duration-500 group-hover:border-purple-300 translate-z-[20px]" />
+                <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-purple-400/60 transition-all duration-500 group-hover:border-purple-300 translate-z-[20px]" />
+                <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-purple-400/60 transition-all duration-500 group-hover:border-purple-300 translate-z-[20px]" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-purple-400/60 transition-all duration-500 group-hover:border-purple-300 translate-z-[20px]" />
+
+                {/* Sharp Purple Laser Sweep */}
+                <div className="absolute inset-0 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-2000 ease-in-out pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-400/30 to-transparent skew-x-[-35deg] translate-z-[25px] blur-[1px]" />
                 </div>
 
-                <h3 className="mb-3 font-serif text-xl font-semibold text-white group-hover:text-purple-200 transition-colors duration-300">
-                    {title}
-                </h3>
-                <p className="text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
-                    {description}
-                </p>
-            </Card>
+                {/* Holographic Purple Neon Spotlights */}
+                <div className="absolute -top-10 -left-10 w-72 h-72 bg-radial-gradient from-purple-500/30 via-transparent to-transparent rounded-full blur-[60px] pointer-events-none group-hover:from-purple-400/40 transition-all duration-1000 translate-z-[-10px]" />
+                <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-radial-gradient from-purple-600/20 via-transparent to-transparent rounded-full blur-[60px] pointer-events-none group-hover:from-purple-400/30 transition-all duration-1000 translate-z-[-10px]" />
+
+                {/* Floating Content with Extreme Parallax */}
+                <Card className="relative h-full w-full border-0 bg-transparent p-8 flex flex-col items-center text-center z-10 preserve-3d">
+                    {/* Floating Icon with Purple Halo Glow */}
+                    <div
+                        style={{ transform: `translateZ(60px)` }}
+                        className="relative mb-8 transition-all duration-500 ease-out group-hover:scale-110"
+                    >
+                        <div className="absolute inset-0 rounded-full bg-purple-500/30 blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000" />
+                        <div className="relative z-10 rounded-2xl bg-slate-900/60 p-6 border border-purple-400/40 backdrop-blur-3xl shadow-[0_0_30px_rgba(168,85,247,0.3)] group-hover:border-purple-300 transition-all duration-500">
+                            <div className="text-purple-400 group-hover:text-white transition-colors duration-500 scale-125">
+                                {icon}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3
+                        style={{ transform: `translateZ(40px)` }}
+                        className="mb-4 font-serif text-2xl font-bold tracking-widest text-white group-hover:text-purple-300 transition-all duration-500"
+                    >
+                        {title}
+                    </h3>
+
+                    <p
+                        style={{ transform: `translateZ(20px)` }}
+                        className="text-purple-100/60 leading-relaxed text-base group-hover:text-purple-100 transition-colors duration-500"
+                    >
+                        {description}
+                    </p>
+
+                    {/* Laser Scanner Line (Bottom - Purple) */}
+                    <div
+                        style={{ transform: `translateZ(5px)` }}
+                        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-30 group-hover:opacity-100 group-hover:h-[2px] transition-all duration-1000 shadow-[0_0_10px_rgba(168,85,247,0.8)]"
+                    />
+                </Card>
+            </div>
         </div>
     );
 }

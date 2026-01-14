@@ -69,9 +69,6 @@
   }
 }
 
-html {
-  /* scroll-behavior: smooth;  <-- Disabled to allow Lenis to handle smoothing */
-}
 
 body {
   background-color: var(--background);

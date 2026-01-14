@@ -30,9 +30,12 @@ export function Navbar() {
 
     return (
         <motion.header
-            initial={{ y: -100, opacity: 0 }}
+            initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1] // Custom quintOut easing
+            }}
             className="fixed top-0 left-0 right-0 z-50 h-20"
         >
             {/* Premium Glassmorphism Background */}
@@ -57,9 +60,9 @@ export function Navbar() {
                         <div className="absolute inset-0 bg-purple-500/5 blur-xl rounded-full" />
                         <GooeyNav
                             items={gooeyItems}
-                            particleCount={15}
-                            timeVariance={300}
-                            particleR={100}
+                            particleCount={13}
+                            timeVariance={600}
+                            particleR={80}
                             initialActiveIndex={initialActiveIndex >= 0 ? initialActiveIndex : 0}
                             animationTime={500}
                             particleDistances={[90, 10]}
